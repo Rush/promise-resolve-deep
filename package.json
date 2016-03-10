@@ -1,0 +1,27 @@
+{
+  "name": "promise-resolve-deep",
+  "version": "1.0.0",
+  "description": "Resolve a promise or value and all of its embedded promises (key values, elements of array, including nested)",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "keywords": [
+    "promise",
+    "recursive",
+    "resolve",
+    "embedded",
+    "deep"
+  ],
+  "author": "Damian Kaczmarek <rush@virtkick.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "bluebird": "^3.3.3"
+  },
+  "repository" : {
+    "type" : "git"
+  , "url" : "https://github.com/virtkick/promise-resolve-deep.git"
+  }
+}
