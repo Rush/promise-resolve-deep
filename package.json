@@ -1,6 +1,6 @@
 {
   "name": "promise-resolve-deep",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Resolve a promise or value and all of its embedded promises (key values, elements of array, including nested)",
   "main": "index.js",
   "scripts": {
