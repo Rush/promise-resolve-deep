@@ -56,6 +56,9 @@ function wrap(func) {
 ```
 If you want to write such declarative Promise-based APIs then you may also like this: https://github.com/virtkick/express-router-api
 
+## Author
+
+Damian Kaczmarek <rush@virtkick.com>
 
 ## License
 
