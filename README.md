@@ -35,6 +35,7 @@ Promise.resolveDeep(promise).then(val => {
 ```js
 // app is express application
 // User and Book are bookshelf.js models
+// needs: require('promise-resolve-deep')(Promise); to install the .resolveDeep method
 
 app.get('/resources', wrap(() => {
   return {
