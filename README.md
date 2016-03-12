@@ -9,7 +9,7 @@ npm install --save promise-resolve-deep
 
 ## Sample usage
 
-It can more or less be used like `Proimse.resolve` but will recursively/deep travel and resolve all nested promises.
+Use it like `Proimse.resolve` and it will recursively/deep travel and resolve all nested promises in arrays and objects. Also any object or an array that any promise resolves to, will be deeply resolved too.
 
 ```js
 // Promise can be either native or bluebird
@@ -30,6 +30,32 @@ Promise.resolveDeep(promise).then(val => {
 });
 ```
 
-# License
+## Fun with APIs
+
+```js
+// app is express application
+// User and Book are bookshelf.js models
+
+app.get('/resources', wrap(() => {
+  return {
+    users: User.fetchAll().then(users => users.map(user => user.attributes)),
+    books: Book.fetchAll().then(books => books.map(book => book.attributes))
+  };
+}));
+
+// utilizing Promise.resolveDeep
+function wrap(func) {
+  return (req, res) => {
+    Promise.resolve().then(() => func())
+      .then(Promise.resolveDeep).then(data => {
+        res.json(data);
+      }).catch(err => res.status(500));
+  }
+}
+```
+If you want to write such declarative Promise-based APIs then you may also like this: https://github.com/virtkick/express-router-api
+
+
+## License
 
 MIT
