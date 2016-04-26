@@ -6,6 +6,16 @@ module.exports = function setupResolveDeep(Promise) {
       Promise.resolve(promiseOrValue).then(functor)
     ));
   };
+  let promiseProps = Promise.props || function propsImpl(obj) {
+    let promisesToResolve = [];
+    Object.keys(obj).map(key => {
+      let promise = Promise.resolve(obj[key]).then(val => {
+        obj[key] = val;
+      });
+      promisesToResolve.push(promise)
+    });
+    return Promise.all(promisesToResolve).then(() => obj);
+  };
   
   return Promise.resolveDeep = function resolveNestedPromises(obj) {
     return Promise.resolve(obj).then(obj => {
@@ -13,16 +23,10 @@ module.exports = function setupResolveDeep(Promise) {
         return promiseMap(obj, resolveNestedPromises);
       }
       else if(obj && typeof obj === 'object' ) {
-        let promisesToResolve = [];
         Object.keys(obj).map(key => {
-          let promise = resolveNestedPromises(obj[key]).then(val => {
-            obj[key] = val;
-          });
-          promisesToResolve.push(promise)
+          obj[key] = resolveNestedPromises(obj[key]);
         });
-        if(promisesToResolve.length) {
-          return Promise.all(promisesToResolve).then(() => obj);
-        }
+        return promiseProps(obj);
       }
       return obj;
     });
