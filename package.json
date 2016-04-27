@@ -1,6 +1,6 @@
 {
   "name": "promise-resolve-deep",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Resolve a promise or value and all of its embedded promises (key values, elements of array, including nested)",
   "main": "index.js",
   "scripts": {
@@ -16,12 +16,14 @@
   "author": "Damian Kaczmarek <rush@virtkick.com>",
   "license": "MIT",
   "devDependencies": {
+    "benchmark": "^2.1.0",
+    "bluebird": "^3.3.3",
     "chai": "^3.5.0",
-    "mocha": "^2.4.5",
-    "bluebird": "^3.3.3"
+    "microtime": "^2.1.0",
+    "mocha": "^2.4.5"
   },
-  "repository" : {
-    "type" : "git"
-  , "url" : "https://github.com/virtkick/promise-resolve-deep.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/virtkick/promise-resolve-deep.git"
   }
 }

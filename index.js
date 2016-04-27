@@ -22,10 +22,10 @@ module.exports = function setupResolveDeep(Promise) {
       if(Array.isArray(obj)) {
         return promiseMap(obj, resolveNestedPromises);
       }
-      else if(obj && typeof obj === 'object' ) {
-        Object.keys(obj).map(key => {
+      else if(obj && typeof obj === 'object'  && obj.constructor === Object) {
+        for(var key in obj) {
           obj[key] = resolveNestedPromises(obj[key]);
-        });
+        }
         return promiseProps(obj);
       }
       return obj;

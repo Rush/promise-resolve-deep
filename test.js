@@ -1,7 +1,7 @@
 'use strict';
 
 require('chai');
-let setupResolveDeep = require('./');
+let setupResolveDeep = require('./index');
 let assert = require('chai').assert;
 let PromiseBluebird = require('bluebird');
 
