@@ -23,10 +23,11 @@ module.exports = function setupResolveDeep(Promise) {
         return promiseMap(obj, resolveNestedPromises);
       }
       else if(obj && typeof obj === 'object'  && obj.constructor === Object) {
+        let obj2 = {};
         for(var key in obj) {
-          obj[key] = resolveNestedPromises(obj[key]);
+          obj2[key] = resolveNestedPromises(obj[key]);
         }
-        return promiseProps(obj);
+        return promiseProps(obj2);
       }
       return obj;
     });

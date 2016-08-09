@@ -76,6 +76,20 @@ function setupTests(Promise, description) {
           foo: {bar: ['foo', {xx: 'ala', dd: null, zz: true, yy: false, mm: undefined}]}
         });
       });
+      
+      it('should not modify objects properties of they are not promises', () => {
+        let obj = {
+          foo: 'bar'
+        };
+        return Promise.resolveDeep(obj).then(out => {
+          assert.equal(obj.foo, 'bar');
+        });
+      });
+      
+      it('should resolve plain object', () => {
+        resolveTest(Promise.resolve({ agent_id: '2c408ef3-6a04-11e5-9a8d-0f357708d53a' }),
+          { agent_id: '2c408ef3-6a04-11e5-9a8d-0f357708d53a' });
+      })
     });
   });
 }
