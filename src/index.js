@@ -4,10 +4,10 @@ module.exports = function setupResolveDeep(Promise) {
       Promise.resolve(promiseOrValue).then(functor)
     ));
   };
-  let promiseProps = Promise.props || function propsImpl(obj) {
-    var promisesToResolve = [];
+  const promiseProps = Promise.props || function propsImpl(obj) {
+    const promisesToResolve = [];
     Object.keys(obj).map(key => {
-      var promise = Promise.resolve(obj[key]).then(val => {
+      const promise = Promise.resolve(obj[key]).then(val => {
         obj[key] = val;
       });
       promisesToResolve.push(promise)
@@ -15,7 +15,7 @@ module.exports = function setupResolveDeep(Promise) {
     return Promise.all(promisesToResolve).then(() => obj);
   };
   
-  return Promise.resolveDeep = function resolveNestedPromises(obj, options, maxDepth = 6) {
+  function resolveNestedPromises(obj, options, maxDepth = 6) {
     if(maxDepth === 0) {
       return Promise.resolve(obj);
     }
@@ -26,13 +26,15 @@ module.exports = function setupResolveDeep(Promise) {
         return promiseMap(obj, obj => resolveNestedPromises(obj, options, maxDepth), options);
       }
       else if(obj && typeof obj === 'object'  && obj.constructor === Object) {
-        let obj2 = {};
-        for(let key in obj) {
-          obj2[key] = resolveNestedPromises(obj[key]);
+        const obj2 = {};
+        for(const key in obj) {
+          obj2[key] = resolveNestedPromises(obj[key], options, maxDepth);
         }
         return promiseProps(obj2, options);
       }
       return obj;
     });
   };
+  
+  return Promise.resolveDeep = (obj, options) => resolveNestedPromises(obj, options);
 };
