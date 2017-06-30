@@ -2,7 +2,7 @@
   "name": "promise-resolve-deep",
   "version": "1.0.5",
   "description": "Resolve a promise or value and all of its embedded promises (key values, elements of array, including nested)",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "mocha test",
     "benchmark": "node benchmark.js",
@@ -19,8 +19,10 @@
   "author": "Damian Kaczmarek <rush@virtkick.com>",
   "license": "MIT",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.2",
     "benchmark": "^2.1.0",
-    "bluebird": "^3.3.3",
+    "bluebird": "^3.5.0",
     "chai": "^3.5.0",
     "microtime": "^2.1.0",
     "mocha": "^2.4.5",

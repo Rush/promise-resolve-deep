@@ -1,7 +1,5 @@
-'use strict';
-
 module.exports = function setupResolveDeep(Promise) {
-  let promiseMap = Promise.map || function mapImpl(promiseList, functor) {
+  const promiseMap = Promise.map || function mapImpl(promiseList, functor) {
     return Promise.all(promiseList.map(promiseOrValue =>
       Promise.resolve(promiseOrValue).then(functor)
     ));
@@ -17,17 +15,22 @@ module.exports = function setupResolveDeep(Promise) {
     return Promise.all(promisesToResolve).then(() => obj);
   };
   
-  return Promise.resolveDeep = function resolveNestedPromises(obj) {
+  return Promise.resolveDeep = function resolveNestedPromises(obj, options, maxDepth = 6) {
+    if(maxDepth === 0) {
+      return Promise.resolve(obj);
+    }
+    maxDepth -= 1;
+    
     return Promise.resolve(obj).then(obj => {
       if(Array.isArray(obj)) {
-        return promiseMap(obj, resolveNestedPromises);
+        return promiseMap(obj, obj => resolveNestedPromises(obj, options, maxDepth), options);
       }
       else if(obj && typeof obj === 'object'  && obj.constructor === Object) {
         let obj2 = {};
         for(let key in obj) {
           obj2[key] = resolveNestedPromises(obj[key]);
         }
-        return promiseProps(obj2);
+        return promiseProps(obj2, options);
       }
       return obj;
     });

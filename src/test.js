@@ -1,9 +1,6 @@
-'use strict';
-
-require('chai');
-let setupResolveDeep = require('./index');
-let assert = require('chai').assert;
-let PromiseBluebird = require('bluebird');
+const setupResolveDeep = require('./index');
+const PromiseBluebird = require('bluebird');
+const {assert, expect} = require('chai');
 
 setupResolveDeep(Promise);
 setupResolveDeep(PromiseBluebird);
@@ -89,7 +86,43 @@ function setupTests(Promise, description) {
       it('should resolve plain object', () => {
         resolveTest(Promise.resolve({ agent_id: '2c408ef3-6a04-11e5-9a8d-0f357708d53a' }),
           { agent_id: '2c408ef3-6a04-11e5-9a8d-0f357708d53a' });
-      })
+      });
+      
+      it('should limit recursion to 6 levels by default', () => {
+        let deep7 = Promise.resolveDeep({
+          a: {
+            a: {
+              a: {
+                a: {
+                  a: {
+                    a : {
+                      a: Promise.resolve('foo')
+                    }
+                  }
+                }
+              }
+            }
+          }
+        });
+        let deep6 = Promise.resolveDeep({
+          a: {
+            a: {
+              a: {
+                a: {
+                  a: {
+                    a : Promise.resolve('foo')
+                  }
+                }
+              }
+            }
+          }
+        });
+        
+        return Promise.all([deep6, deep7]).then(res => {
+          expect(res[0].a.a.a.a.a.a).to.equal('foo');
+          expect(res[1].a.a.a.a.a.a.a).to.be.instanceof(Promise);
+        });
+      });
     });
   });
 }
