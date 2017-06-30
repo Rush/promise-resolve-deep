@@ -33,6 +33,6 @@
     "url": "https://github.com/virtkick/promise-resolve-deep.git"
   },
   "jspm": {
-    "main": "index-es5.js"
+    "main": "dist/index.js"
   }
 }
